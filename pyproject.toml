@@ -10,7 +10,7 @@ repository = "https://github.com/markbaas/databricks-dbutilsplus"
 keywords = ["databricks", "sdk", "utilities"]
 
 [tool.poetry.dependencies]
-python = "^2.11"
+python = ">=3.11"
 "databricks-sdk[notebook]" = "^v0.49.0"
 nbformat = "^5.0"
 
