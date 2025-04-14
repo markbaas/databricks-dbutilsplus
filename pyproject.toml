@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "dbutilsplus"
+version = "0.1.0"
+description = "A Python library that extends Databricks utilities."
+authors = ["Your Name <youremail@example.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/markbaas/databricks-dbutilsplus"
+repository = "https://github.com/markbaas/databricks-dbutilsplus"
+keywords = ["databricks", "sdk", "utilities"]
+
+[tool.poetry.dependencies]
+python = "^2.11"
+"databricks-sdk[notebook]" = "^v0.49.0"
+nbformat = "^5.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
