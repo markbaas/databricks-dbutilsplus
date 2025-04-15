@@ -1,18 +1,16 @@
-from databricks.sdk import WorkspaceClient
 import json
-from ipywidgets.widgets import widget_string
+import logging
+from azure.identity import DefaultAzureCredential
+from databricks.sdk import WorkspaceClient
 from databricks.sdk._widgets.ipywidgets_utils import DbUtilsWidget
+from ipywidgets.widgets import widget_string
+
 
 class Widgets:
     def __init__(self, _widgets):
         self._widgets = _widgets
 
-    def _register(
-        self,
-        name,
-        widget,
-        label = None,
-    ):
+    def _register(self, name, widget, label=None):
         label = label if label is not None else name
         w = DbUtilsWidget(label, widget)
 
@@ -42,11 +40,25 @@ class Widgets:
         return getattr(self._widgets, name)
 
 
+class Credentials:
+    def __init__(self, credentials):
+        self._credentials = credentials
+
+    def getServiceCredentialsProvider(self, *args, **kwargs):
+        logging.warning(
+            "getServiceCredentialsProvider is not supported remotely. Using DefaultAzureCredential instead."
+        )
+        return DefaultAzureCredential()
+
+    def __getattr__(self, name):
+        return getattr(self._credentials, name)
+
 
 class DbUtils:
     def __init__(self):
         self.w = WorkspaceClient()
         self.widgets = Widgets(self.w.dbutils.widgets)
+        self.credentials = Credentials(self.w.dbutils.credentials)
 
     def __getattr__(self, name):
         return getattr(self.w.dbutils, name)
