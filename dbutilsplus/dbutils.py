@@ -8,6 +8,7 @@ from databricks.sdk import WorkspaceClient
 from databricks.sdk._widgets.ipywidgets_utils import DbUtilsWidget
 from databricks.sdk.dbutils import FileInfo
 from ipywidgets.widgets import widget_string
+from .utils import get_notebook_dev_params
 
 w = WorkspaceClient()
 
@@ -23,9 +24,10 @@ class Widgets:
         w.dbutils.widgets._widgets[name] = widget
 
     def _refreshParameters(self):
-        with open(".params.json", "r") as f:
-            for k, v in json.load(f).items():
-                self._register(k, widget_string.Text(v))
+        params = get_notebook_dev_params()
+
+        for k, v in params.items():
+            self._register(k, widget_string.Text(v))
 
     def getAll(self):
         self._refreshParameters()
